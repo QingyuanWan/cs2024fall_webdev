@@ -1,6 +1,7 @@
 import "./index.css";
 import ReactIconsSampler from "./ReactIcons"
 import ScreenSizeLabel from "./ScreenSizeLabel"
+import { Link } from "react-router-dom";
 
 export default function Lab2() {
   return (
@@ -245,7 +246,7 @@ Here's another paragraph using a different ID and a different look and
           <div className="wd-float-left wd-dimension-portrait wd-bg-color-red">
             Red </div>
           <img className="wd-float-right"
-            src="https://www.staradvertiser.com/wp-content/uploads/2021/08/web1_Starship-gap2.jpg"/>
+            src="https://www.staradvertiser.com/wp-content/uploads/2021/08/web1_Starship-gap2.jpg" alt=""/>
           <div className="wd-float-done"></div>
         </div>
         </div>
@@ -693,16 +694,16 @@ Here's another paragraph using a different ID and a different look and
       <h2>Tabs</h2>
       <ul className="nav nav-tabs">
         <li className="nav-item">
-            <a className="nav-link active" href="#">Active</a>
+          <button className="nav-link active" type="button">Active</button>
         </li>
         <li className="nav-item">
-            <a className="nav-link" href="#">Link</a>
+          <button className="nav-link" type="button">Link</button>
         </li>
         <li className="nav-item">
-            <a className="nav-link" href="#">Link</a>
+          <button className="nav-link" type="button">Link</button>
         </li>
         <li className="nav-item">
-            <a className="nav-link disabled" href="#">Disabled</a>
+          <button className="nav-link disabled" type="button" disabled>Disabled</button>
         </li>
       </ul>
     </div>
@@ -712,7 +713,7 @@ Here's another paragraph using a different ID and a different look and
   <h2>Cards</h2>
   <div className="card"
        style={{ width: "18rem" }}>
-    <img src="images/stacked.jpg"
+    <img src="images/stacked.jpg" alt=""
          className="card-img-top" />
     <div className="card-body">
       <h5 className="card-title">
@@ -721,9 +722,9 @@ Here's another paragraph using a different ID and a different look and
       <p className="card-text">
         Stacking the most powerful rocket in history. Mars or bust!
       </p>
-      <a href="#" className="btn btn-primary">
+      <Link to="/desired-path" className="btn btn-primary">
         Boldly Go
-      </a>
+      </Link>
     </div>
   </div>
 </div>
