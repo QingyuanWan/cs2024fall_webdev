@@ -32,7 +32,7 @@ export default function TOC() {
         </a>
       </li>
       <li className="nav-item">
-        <a id="wd-k" href="https://github.com/QingyuanWan/cs2024fall_webdev" className="nav-link">
+        <a id="wd-github" href="https://github.com/QingyuanWan/cs2024fall_webdev" className="nav-link">
           My GitHub
         </a>
       </li>
