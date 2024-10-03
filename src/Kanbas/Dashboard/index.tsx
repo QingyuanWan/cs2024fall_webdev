@@ -13,7 +13,7 @@ export default function Dashboard() {
               <div className="card rounded-3 overflow-hidden h-100">
                 <Link className="wd-dashboard-course-link text-decoration-none text-dark"
                       to="/Kanbas/Courses/1234/Home">
-                  <img src="/images/reactjs.jpg" width="100%" height={160}/>
+                  <img src="/images/reactjs.jpg" alt="" width="100%" height={160}/>
                   <div className="card-body">
                     <h5 className="wd-dashboard-course-title card-title">
                       CS1234 React JS
@@ -36,7 +36,7 @@ export default function Dashboard() {
               <div className="card rounded-3 overflow-hidden h-100">
                 <Link className="wd-dashboard-course-link text-decoration-none text-dark"
                       to="/Kanbas/Courses/1234/Home">
-                  <img src="/images/buger.jpg" width="100%" height={160}/>
+                  <img src="/images/buger.jpg" alt="" width="100%" height={160}/>
                   <div className="card-body">
                     <h5 className="wd-dashboard-course-title card-title">
                     CS1001 Make Buger
@@ -55,7 +55,7 @@ export default function Dashboard() {
               <div className="card rounded-3 overflow-hidden h-100">
                 <Link className="wd-dashboard-course-link text-decoration-none text-dark"
                       to="/Kanbas/Courses/1234/Home">
-                  <img src="/images/chicken.jpg" width="100%" height={160}/>
+                  <img src="/images/chicken.jpg" alt="" width="100%" height={160}/>
                   <div className="card-body">
                     <h5 className="wd-dashboard-course-title card-title">
                     CS1002 Cook Chicken
@@ -74,7 +74,7 @@ export default function Dashboard() {
               <div className="card rounded-3 overflow-hidden h-100">
                 <Link className="wd-dashboard-course-link text-decoration-none text-dark"
                       to="/Kanbas/Courses/1234/Home">
-                  <img src="/images/pasta.jpg" width="100%" height={160}/>
+                  <img src="/images/pasta.jpg" alt="" width="100%" height={160}/>
                   <div className="card-body">
                     <h5 className="wd-dashboard-course-title card-title">
                     CS1003 Cook Pasta
@@ -93,7 +93,7 @@ export default function Dashboard() {
               <div className="card rounded-3 overflow-hidden h-100">
                 <Link className="wd-dashboard-course-link text-decoration-none text-dark"
                       to="/Kanbas/Courses/1234/Home">
-                  <img src="/images/Franchfood.jpg" width="100%" height={160}/>
+                  <img src="/images/Franchfood.jpg" alt="" width="100%" height={160}/>
                   <div className="card-body">
                     <h5 className="wd-dashboard-course-title card-title">
                     CS1004 Franch Food
@@ -111,7 +111,7 @@ export default function Dashboard() {
               <div className="card rounded-3 overflow-hidden h-100">
                 <Link className="wd-dashboard-course-link text-decoration-none text-dark"
                       to="/Kanbas/Courses/1234/Home">
-                  <img src="/images/hotdog.jpg" width="100%" height={160}/>
+                  <img src="/images/hotdog.jpg" alt="" width="100%" height={160}/>
                   <div className="card-body">
                     <h5 className="wd-dashboard-course-title card-title">
                     CS1005 Cook HD
@@ -129,7 +129,7 @@ export default function Dashboard() {
               <div className="card rounded-3 overflow-hidden h-100">
                 <Link className="wd-dashboard-course-link text-decoration-none text-dark"
                       to="/Kanbas/Courses/1234/Home">
-                  <img src="/images/animate.jpg" width="100%" height={160}/>
+                  <img src="/images/animate.jpg" alt="" width="100%" height={160}/>
                   <div className="card-body">
                     <h5 className="wd-dashboard-course-title card-title">
                     CS2001 Animate Design
@@ -147,7 +147,7 @@ export default function Dashboard() {
               <div className="card rounded-3 overflow-hidden h-100">
                 <Link className="wd-dashboard-course-link text-decoration-none text-dark"
                       to="/Kanbas/Courses/1234/Home">
-                  <img src="/images/gamedes.png" width="100%" height={160}/>
+                  <img src="/images/gamedes.png" alt="" width="100%" height={160}/>
                   <div className="card-body">
                     <h5 className="wd-dashboard-course-title card-title">
                     CS2002 Animate Game Design
@@ -165,7 +165,7 @@ export default function Dashboard() {
               <div className="card rounded-3 overflow-hidden h-100">
                 <Link className="wd-dashboard-course-link text-decoration-none text-dark"
                       to="/Kanbas/Courses/1234/Home">
-                  <img src="/images/draw.avif" width="100%" height={160}/>
+                  <img src="/images/draw.avif" alt="" width="100%" height={160}/>
                   <div className="card-body">
                     <h5 className="wd-dashboard-course-title card-title">
                     CS2003 Animate Draw
@@ -183,7 +183,7 @@ export default function Dashboard() {
               <div className="card rounded-3 overflow-hidden h-100">
                 <Link className="wd-dashboard-course-link text-decoration-none text-dark"
                       to="/Kanbas/Courses/1234/Home">
-                  <img src="/images/truth.jpg" width="100%" height={160}/>
+                  <img src="/images/truth.jpg" alt="" width="100%" height={160}/>
                   <div className="card-body">
                     <h5 className="wd-dashboard-course-title card-title">
                     CS2004 Truth of Engagement
@@ -201,7 +201,7 @@ export default function Dashboard() {
               <div className="card rounded-3 overflow-hidden h-100">
                 <Link className="wd-dashboard-course-link text-decoration-none text-dark"
                       to="/Kanbas/Courses/1234/Home">
-                  <img src="/images/cat.jpg" width="100%" height={160}/>
+                  <img src="/images/cat.jpg" alt="" width="100%" height={160}/>
                   <div className="card-body">
                     <h5 className="wd-dashboard-course-title card-title">
                     CS2003 Philosophy
@@ -221,7 +221,7 @@ export default function Dashboard() {
               <div className="card rounded-3 overflow-hidden h-100">
                 <Link className="wd-dashboard-course-link text-decoration-none text-dark"
                       to="/Kanbas/Courses/1234/Home">
-                  <img src="/images/mgc.jpg" width="100%" height={160}/>
+                  <img src="/images/mgc.jpg" alt="" width="100%" height={160}/>
                   <div className="card-body">
                     <h5 className="wd-dashboard-course-title card-title">
                     CS6666 Magic
