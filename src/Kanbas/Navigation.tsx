@@ -28,7 +28,7 @@ export default function KanbasNavigation() {
       <Link to="/Labs" id="wd-labs-link" className="list-group-item text-white
                    bg-black text-center border-0">
         <LiaCogSolid className="fs-1 text-danger" /><br />Labs</Link>
-      <a href="https://github.com/QingyuanWan/cs2024fall_webdev/tree/a1/" id="wd-github" target="_blank" rel="noopener noreferrer"  className="list-group-item text-white
+      <a href="https://github.com/QingyuanWan/cs2024fall_webdev" id="wd-github" target="_blank" rel="noopener noreferrer"  className="list-group-item text-white
                    bg-black text-center border-0">
         <FaGithub className="fs-1 text-danger" /><br />Github</a><br/>
 
