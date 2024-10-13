@@ -1,3 +1,5 @@
+import { useParams } from "react-router";
+import * as db from "../../Database";
 import AssigmentControls from "./AssigmentControls";
 import { BsGripVertical } from "react-icons/bs";
 import AssigmentItemControlsButton from "./AssigmentItemControlsButton";
@@ -7,6 +9,8 @@ import { FaRegPenToSquare } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 
 export default function Assignments() {
+  const { cid } = useParams();
+  const assignments = db.assignments;
     return (
 
       <div id="wd-assignments">
@@ -14,7 +18,38 @@ export default function Assignments() {
 
 
         <ul id="wd-modules" className="list-group rounded-0">
-          <li className="wd-module list-group-item p-0 mb-5 fs-5 border-gray">
+
+              <li className="wd-module list-group-item p-0 mb-5 fs-5 border-gray">
+            <div className="wd-title p-3 ps-2 bg-secondary"> 
+            <BsGripVertical className="me-2 fs-3" />
+            <AiOutlineCaretDown className="me-2 fs-5" />
+            Assignment
+            <AssigmentTileControlsButton />
+            </div>
+
+            <ul className="wd-lessons list-group rounded-0">
+            {assignments
+            .filter((assignments: any) => assignments.course === cid)
+            .map((assignments: any) => (
+              <li className="wd-lesson list-group-item p-3 ps-1 d-flex align-items-center">
+              <BsGripVertical className="me-2 fs-3" />
+              <FaRegPenToSquare className="me-2 fs-3 text-success" />
+              <div className="d-flex flex-column me-auto">
+                <Link to={`/Kanbas/Courses/${cid}/Assignments/${assignments._id}`} className="text-decoration-none">
+                    <span className="">{assignments.title}</span>
+                </Link>
+                <div className="text-muted" style={{ fontSize: '0.875rem' }}>
+                    <span className="text-danger"> Mutiple Modules </span> |
+                    <span className="fw-bold"> Not aviable until</span> END OF TEH WROLD |<br />
+                    <span className="fw-bold"> Due</span> After world end | 100 pts
+                  </div>
+              </div>
+              <AssigmentItemControlsButton />
+              </li>
+        ))}
+        </ul>
+      </li>
+    </ul>          {/* <li className="wd-module list-group-item p-0 mb-5 fs-5 border-gray">
             <div className="wd-title p-3 ps-2 bg-secondary"> 
             <BsGripVertical className="me-2 fs-3" />
             <AiOutlineCaretDown className="me-2 fs-5" />
@@ -128,45 +163,6 @@ export default function Assignments() {
               <AssigmentItemControlsButton />
                </li>
             </ul>
-          </li>
-        </ul>
-
-
-
-        {/* <input id="wd-search-assignment"
-               placeholder="Search for Assignments" />
-        <button id="wd-add-assignment-group">+ Group</button>
-        <button id="wd-add-assignment">+ Assignment</button>
-        <h3 id="wd-assignments-title">
-          ASSIGNMENTS 40% of Total <button>+</button>
-        </h3>
-        <ul id="wd-assignment-list">
-          <li className="wd-assignment-list-item">
-            <a className="wd-assignment-link"
-              href="#/Kanbas/Courses/1234/Assignments/123">
-              A1 - ENV + HTML
-            </a>
-            <p id="wd-p-2">
-            Mutiple Modules | Not avaviable until ~~ undecided
-            </p>
-          </li>
-          <li className="wd-assignment-list-item">
-            <a className="wd-assignment-link"
-              href="#/Kanbas/Courses/1234/Assignments/222">
-              A2 - CSS + BOOTSTRAP
-            </a>
-            <p id="wd-p-2">
-            Mutiple Modules | Not avaviable until ~~ undecided
-            </p>
-          </li>
-          <li className="wd-assignment-list-item">
-            <a className="wd-assignment-link"
-              href="#/Kanbas/Courses/1234/Assignments/333">
-              A1 - JAVASCRIPT + REACT
-            </a>
-            <p id="wd-p-2">
-            Mutiple Modules | Not avaviable until ~~ undecided
-            </p>
           </li>
         </ul> */}
 

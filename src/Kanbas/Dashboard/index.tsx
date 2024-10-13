@@ -1,247 +1,34 @@
 import { Link } from "react-router-dom";
-import "./index.css";
+import * as db from "../Database";
+
 export default function Dashboard() {
+  const courses = db.courses;
   return (
     <div id="wd-dashboard">
       <h1 id="wd-dashboard-title">Dashboard</h1> <hr />
-        <h2 id="wd-dashboard-published">Published Courses (12)</h2> <hr />
-        <div id="wd-dashboard-courses" className="row">
-          <div className="row row-cols-1 row-cols-md-5 g-4">
-
-
-            <div className="wd-dashboard-course col" style={{ width: "270px" }}>
-              <div className="card rounded-3 overflow-hidden h-100">
-                <Link className="wd-dashboard-course-link text-decoration-none text-dark"
-                      to="/Kanbas/Courses/1234/Home">
-                  <img src="/images/reactjs.jpg" alt="" width="100%" height={160}/>
+      <h2 id="wd-dashboard-published">Published Courses ({courses.length})</h2> <hr />
+      <div id="wd-dashboard-courses" className="row">
+        <div className="row row-cols-1 row-cols-md-5 g-4">
+          {courses.map((course) => (
+            <div className="wd-dashboard-course col" style={{ width: "300px" }}>
+              <div className="card rounded-3 overflow-hidden">
+                <Link to={`/Kanbas/Courses/${course._id}/Home`}
+                      className="wd-dashboard-course-link text-decoration-none text-dark" >
+                  <img src="/images/reactjs.jpg" width="100%" height={160} />
                   <div className="card-body">
                     <h5 className="wd-dashboard-course-title card-title">
-                      CS1234 React JS
-                    </h5>
-                    <p className="wd-dashboard-course-title card-text">
-                        Full Stack software developer
-                    </p>
+                      {course.name} </h5>
+                    <p className="wd-dashboard-course-title card-text overflow-y-hidden" style={{ maxHeight: 100 }}>
+                      {course.description} </p>
                     <button className="btn btn-primary"> Go </button>
                   </div>
                 </Link>
               </div>
             </div>
-
-
-
-
-
-
-            <div className="wd-dashboard-course col" style={{ width: "270px" }}>
-              <div className="card rounded-3 overflow-hidden h-100">
-                <Link className="wd-dashboard-course-link text-decoration-none text-dark"
-                      to="/Kanbas/Courses/1234/Home">
-                  <img src="/images/buger.jpg" alt="" width="100%" height={160}/>
-                  <div className="card-body">
-                    <h5 className="wd-dashboard-course-title card-title">
-                    CS1001 Make Buger
-                    </h5>
-                    <p className="wd-dashboard-course-title card-text">
-                    Full Stack Buger developer
-                    </p>
-                    <button className="btn btn-primary"> Go </button>
-                  </div>
-                </Link>
-              </div>
-            </div>
-
-
-            <div className="wd-dashboard-course col" style={{ width: "270px" }}>
-              <div className="card rounded-3 overflow-hidden h-100">
-                <Link className="wd-dashboard-course-link text-decoration-none text-dark"
-                      to="/Kanbas/Courses/1234/Home">
-                  <img src="/images/chicken.jpg" alt="" width="100%" height={160}/>
-                  <div className="card-body">
-                    <h5 className="wd-dashboard-course-title card-title">
-                    CS1002 Cook Chicken
-                    </h5>
-                    <p className="wd-dashboard-course-title card-text">
-                    Full Stack Chicken developer
-                    </p>
-                    <button className="btn btn-primary"> Go </button>
-                  </div>
-                </Link>
-              </div>
-            </div>
-
-
-            <div className="wd-dashboard-course col" style={{ width: "270px" }}>
-              <div className="card rounded-3 overflow-hidden h-100">
-                <Link className="wd-dashboard-course-link text-decoration-none text-dark"
-                      to="/Kanbas/Courses/1234/Home">
-                  <img src="/images/pasta.jpg" alt="" width="100%" height={160}/>
-                  <div className="card-body">
-                    <h5 className="wd-dashboard-course-title card-title">
-                    CS1003 Cook Pasta
-                    </h5>
-                    <p className="wd-dashboard-course-title card-text">
-                    Full Stack Italian Chef
-                    </p>
-                    <button className="btn btn-primary"> Go </button>
-                  </div>
-                </Link>
-              </div>
-            </div>
-
-
-            <div className="wd-dashboard-course col" style={{ width: "270px" }}>
-              <div className="card rounded-3 overflow-hidden h-100">
-                <Link className="wd-dashboard-course-link text-decoration-none text-dark"
-                      to="/Kanbas/Courses/1234/Home">
-                  <img src="/images/Franchfood.jpg" alt="" width="100%" height={160}/>
-                  <div className="card-body">
-                    <h5 className="wd-dashboard-course-title card-title">
-                    CS1004 Franch Food
-                    </h5>
-                    <p className="wd-dashboard-course-title card-text">
-                    Full Stack Franch Chef
-                    </p>
-                    <button className="btn btn-primary"> Go </button>
-                  </div>
-                </Link>
-              </div>
-            </div>
-
-            <div className="wd-dashboard-course col" style={{ width: "270px" }}>
-              <div className="card rounded-3 overflow-hidden h-100">
-                <Link className="wd-dashboard-course-link text-decoration-none text-dark"
-                      to="/Kanbas/Courses/1234/Home">
-                  <img src="/images/hotdog.jpg" alt="" width="100%" height={160}/>
-                  <div className="card-body">
-                    <h5 className="wd-dashboard-course-title card-title">
-                    CS1005 Cook HD
-                    </h5>
-                    <p className="wd-dashboard-course-title card-text">
-                    Full Stack Hot Dog
-                    </p>
-                    <button className="btn btn-primary"> Go </button>
-                  </div>
-                </Link>
-              </div>
-            </div>
-
-            <div className="wd-dashboard-course col" style={{ width: "270px" }}>
-              <div className="card rounded-3 overflow-hidden h-100">
-                <Link className="wd-dashboard-course-link text-decoration-none text-dark"
-                      to="/Kanbas/Courses/1234/Home">
-                  <img src="/images/animate.jpg" alt="" width="100%" height={160}/>
-                  <div className="card-body">
-                    <h5 className="wd-dashboard-course-title card-title">
-                    CS2001 Animate Design
-                    </h5>
-                    <p className="wd-dashboard-course-title card-text">
-                    Full Stack Animation developer
-                    </p>
-                    <button className="btn btn-primary"> Go </button>
-                  </div>
-                </Link>
-              </div>
-            </div>
-
-            <div className="wd-dashboard-course col" style={{ width: "270px" }}>
-              <div className="card rounded-3 overflow-hidden h-100">
-                <Link className="wd-dashboard-course-link text-decoration-none text-dark"
-                      to="/Kanbas/Courses/1234/Home">
-                  <img src="/images/gamedes.png" alt="" width="100%" height={160}/>
-                  <div className="card-body">
-                    <h5 className="wd-dashboard-course-title card-title">
-                    CS2002 Animate Game Design
-                    </h5>
-                    <p className="wd-dashboard-course-title card-text">
-                    Full Stack Animation Game developer
-                    </p>
-                    <button className="btn btn-primary"> Go </button>
-                  </div>
-                </Link>
-              </div>
-            </div>
-
-            <div className="wd-dashboard-course col" style={{ width: "270px" }}>
-              <div className="card rounded-3 overflow-hidden h-100">
-                <Link className="wd-dashboard-course-link text-decoration-none text-dark"
-                      to="/Kanbas/Courses/1234/Home">
-                  <img src="/images/draw.avif" alt="" width="100%" height={160}/>
-                  <div className="card-body">
-                    <h5 className="wd-dashboard-course-title card-title">
-                    CS2003 Animate Draw
-                    </h5>
-                    <p className="wd-dashboard-course-title card-text">
-                    Full Stack Animate Artist
-                    </p>
-                    <button className="btn btn-primary"> Go </button>
-                  </div>
-                </Link>
-              </div>
-            </div>
-
-            <div className="wd-dashboard-course col" style={{ width: "270px" }}>
-              <div className="card rounded-3 overflow-hidden h-100">
-                <Link className="wd-dashboard-course-link text-decoration-none text-dark"
-                      to="/Kanbas/Courses/1234/Home">
-                  <img src="/images/truth.jpg" alt="" width="100%" height={160}/>
-                  <div className="card-body">
-                    <h5 className="wd-dashboard-course-title card-title">
-                    CS2004 Truth of Engagement
-                    </h5>
-                    <p className="wd-dashboard-course-title card-text">
-                    Full Stack Engagement
-                    </p>
-                    <button className="btn btn-primary"> Go </button>
-                  </div>
-                </Link>
-              </div>
-            </div>
-
-            <div className="wd-dashboard-course col" style={{ width: "270px" }}>
-              <div className="card rounded-3 overflow-hidden h-100">
-                <Link className="wd-dashboard-course-link text-decoration-none text-dark"
-                      to="/Kanbas/Courses/1234/Home">
-                  <img src="/images/cat.jpg" alt="" width="100%" height={160}/>
-                  <div className="card-body">
-                    <h5 className="wd-dashboard-course-title card-title">
-                    CS2003 Philosophy
-                    </h5>
-                    <p className="wd-dashboard-course-title card-text">
-                    Full Stack philosopher
-                    </p>
-                    <button className="btn btn-primary"> Go </button>
-                  </div>
-                </Link>
-              </div>
-            </div>
-
-
-
-            <div className="wd-dashboard-course col" style={{ width: "270px" }}>
-              <div className="card rounded-3 overflow-hidden h-100">
-                <Link className="wd-dashboard-course-link text-decoration-none text-dark"
-                      to="/Kanbas/Courses/1234/Home">
-                  <img src="/images/mgc.jpg" alt="" width="100%" height={160}/>
-                  <div className="card-body">
-                    <h5 className="wd-dashboard-course-title card-title">
-                    CS6666 Magic
-                    </h5>
-                    <p className="wd-dashboard-course-title card-text">
-                    Full Stack magician
-                    </p>
-                    <button className="btn btn-primary"> Go </button>
-                  </div>
-                </Link>
-              </div>
-            </div>
-
-
-
-
-          </div>
-
-
+          ))}
+        </div>
       </div>
+
     </div>
   );
 }

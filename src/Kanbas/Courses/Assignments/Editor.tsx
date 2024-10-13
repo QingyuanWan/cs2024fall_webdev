@@ -1,16 +1,22 @@
+import { useParams } from "react-router";
+import { assignments } from "../../Database";
 export default function AssignmentEditor() {
+  const { cid, aid } = useParams();
+  const assignment = assignments.find((assignment) => assignment._id === aid && assignment.course === cid);
+
     return (
       <div id="wd-assignments-editor">
 
         
         <div id="wd-css-responsive-forms-2">
-  <h6>Assigment Name</h6>
-  <form>
-    <div className="row mb-3">
+      <h6>Assigment Name</h6>
+      <form>
+        <div className="row mb-3">
 
-      <div className="col-sm-12">
-        <input type="text" className="form-control" id="as1" value="A1 - ENV + HTML"/>
-      </div> </div>
+        <div className="col-sm-12">
+          <input type="text" className="form-control" id="as1" value={assignment?.title} />
+        </div> 
+      </div>
 
 
       <div className="mb-3 row">
