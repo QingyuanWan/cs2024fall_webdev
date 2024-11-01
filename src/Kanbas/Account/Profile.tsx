@@ -7,15 +7,21 @@ export default function Profile() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { currentUser } = useSelector((state: any) => state.accountReducer);
-  const fetchProfile = () => {
-    if (!currentUser) return navigate("/Kanbas/Account/Signin");
-    setProfile(currentUser);
-  };
+  // const fetchProfile = () => {
+  //   if (!currentUser) return navigate("/Kanbas/Account/Signin");
+  //   setProfile(currentUser);
+  // };
   const signout = () => {
     dispatch(setCurrentUser(null));
     navigate("/Kanbas/Account/Signin");
   };
-  useEffect(() => { fetchProfile(); }, []);
+  useEffect(() => {
+    if (!currentUser) {
+      navigate("/Kanbas/Account/Signin");
+    } else {
+      setProfile(currentUser);
+    }
+  }, [currentUser, navigate]);
   return (
     <div className="wd-profile-screen">
       <h3>Profile</h3>

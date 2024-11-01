@@ -1,5 +1,4 @@
 import { useParams } from "react-router";
-import * as db from "../../Database";
 import AssigmentControls from "./AssigmentControls";
 import { BsGripVertical } from "react-icons/bs";
 import AssigmentItemControlsButton from "./AssigmentItemControlsButton";
@@ -8,9 +7,8 @@ import { AiOutlineCaretDown } from "react-icons/ai";
 import { FaRegPenToSquare, FaTrash } from "react-icons/fa6";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { deleteAssignment, addAssignment } from "./reducer";
-import { useState } from "react";
-import { useEffect } from "react";
+import { deleteAssignment } from "./reducer";
+
 
 
 interface Assignment {

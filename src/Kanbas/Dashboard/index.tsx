@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
-import * as db from "../Database";
-import React, { useState } from "react";
+import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { enroll, unenroll } from "./reducer";
 
