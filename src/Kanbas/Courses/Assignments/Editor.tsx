@@ -1,7 +1,6 @@
-import { assignments } from "../../Database";
-import { useSelector, useDispatch } from "react-redux";
+import {  useDispatch } from "react-redux";
 import { addAssignment, updateAssignment } from "./reducer"; 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 
 

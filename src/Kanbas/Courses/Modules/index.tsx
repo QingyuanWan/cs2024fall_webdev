@@ -1,9 +1,8 @@
 import { useParams } from "react-router";
-import * as db from "../../Database";
 import ModulesControls from "./ModulesControls";
 import LessonControlButtons from "./LessonControlButtons";
 import ModuleControlButtons from "./ModuleControlButtons";
-import React, { useState } from "react";
+import { useState } from "react";
 
 import { BsGripVertical } from "react-icons/bs";
 import { addModule, editModule, updateModule, deleteModule }
