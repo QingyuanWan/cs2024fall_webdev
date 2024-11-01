@@ -1,181 +1,200 @@
-import { useParams } from "react-router";
 import { assignments } from "../../Database";
+import { useSelector, useDispatch } from "react-redux";
+import { addAssignment, updateAssignment } from "./reducer"; 
+import { useState, useEffect } from "react";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
+
+
+interface Assignment {
+  _id: string;
+  title: string;
+  course: string;
+  description?: string;
+  points?: number;
+  dueDate?: string;
+  availableFrom?: string;
+  availableUntil?: string;
+}
+
 export default function AssignmentEditor() {
   const { cid, aid } = useParams();
-  const assignment = assignments.find((assignment) => assignment._id === aid && assignment.course === cid);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const isNewAssignment = aid === "new";
 
-    return (
-      <div id="wd-assignments-editor">
+  const assignmentData = location.state?.assignment || {
+    _id: "",
+    title: "",
+    description: "",
+    points: 100,
+    dueDate: "",
+    availableFrom: "",
+    availableUntil: "",
+    course: cid || "",
+  };
 
-        
-        <div id="wd-css-responsive-forms-2">
-      <h6>Assigment Name</h6>
-      <form>
-        <div className="row mb-3">
+  const [assignmentName, setAssignmentName] = useState(assignmentData.title);
+  const [assignmentDescription, setAssignmentDescription] = useState(assignmentData.description || "");
+  const [points, setPoints] = useState(assignmentData.points || 100);
+  const [dueDate, setDueDate] = useState(assignmentData.dueDate || "");
+  const [availableFrom, setAvailableFrom] = useState(assignmentData.availableFrom || "");
+  const [availableUntil, setAvailableUntil] = useState(assignmentData.availableUntil || "");
 
-        <div className="col-sm-12">
-          <input type="text" className="form-control" id="as1" value={assignment?.title} />
-        </div> 
-      </div>
-
-
-      <div className="mb-3 row">
-      <div className="col-sm-12">
-        <textarea 
-          id="textarea2" 
-          className="form-control"
-          rows={8}
-          value="The assignment is available online.
-
-Submit a link to the landing page of your Web application running on Netlify.
-
-The landing page should include the following:
-- Your full name and section
-- Links to each of the lab assignments
-- Link to the Kanbas application
-- Links to all relevant source code repositories
-
-The Kanbas application should include a link to navigate back to the landing page."
-        ></textarea>
-      </div>
-    </div>
-      
-  </form>
-  <form>
-    <div className="row mb-3">
-      <div className="col-sm-2 text-end">
-        <label htmlFor="wd-points" className="col-form-label">Points</label>
-      </div>
-      <div className="col-md-10">
-        <input type="number" id="wd-points" value={100} className="form-control" />
-      </div>
-    </div>
-
-
-
-    <div className="row mb-3">
-      <div className="col-sm-2 text-end">
-        <label htmlFor="wd-group" className="col-form-label">Assignment Group</label>
-      </div>
-      <div className="col-md-10">
-        <select id="wd-group" className="form-select">
-          <option selected value="ASSIGNMENTS">ASSIGNMENTS</option>
-          <option value="QUIZZES">QUIZZES</option>
-          <option value="EXAMS">EXAMS</option>
-          <option value="PROJECT">PROJECT</option>
-        </select>
-      </div>
-    </div>
-
-
-
-
-
-
-
-    <div className="row mb-3">
-      <div className="col-sm-2 text-end">
-        <label htmlFor="wd-submission-type" className="col-form-label">Submission Type</label>
-      </div>
-      <div className="col-md-10">
-        <select id="wd-submission-type" className="form-select">
-          <option selected value="Online">Online</option>
-          <option value="Paper">Paper</option>
-        </select>
-
-        <div className="mt-3">
-          <label className="form-label fw-bold">Online Entry Options:</label>
-          <div className="form-check">
-            <input type="checkbox" id="wd-text-entry" className="form-check-input" />
-            <label htmlFor="wd-text-entry" className="form-check-label">Text Entry</label>
-          </div>
-          <div className="form-check">
-            <input type="checkbox" id="wd-website-url" className="form-check-input" />
-            <label htmlFor="wd-website-url" className="form-check-label">Website URL</label>
-          </div>
-          <div className="form-check">
-            <input type="checkbox" id="wd-media-recordings" className="form-check-input" />
-            <label htmlFor="wd-media-recordings" className="form-check-label">Media Recording</label>
-          </div>
-          <div className="form-check">
-            <input type="checkbox" id="wd-student-annotation" className="form-check-input" />
-            <label htmlFor="wd-student-annotation" className="form-check-label">Student Annotation</label>
-          </div>
-          <div className="form-check">
-            <input type="checkbox" id="wd-file-upload" className="form-check-input" />
-            <label htmlFor="wd-file-upload" className="form-check-label">File Upload</label>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    
-
-
-
-
-    
-    <div className="row mb-3">
-      <div className="col-sm-2 text-end">
-        <label htmlFor="wd-assign-to" className="col-form-label">Assign</label>
-      </div>
-      <div className="col-md-10">
-        <label htmlFor="wd-assign-to" className="form-label">Assign to</label>
-        <input id="wd-assign-to" className="form-control mb-3" value="Everyone" readOnly />
-
-        <label htmlFor="wd-due-date" className="form-label">Due</label>
-        <input 
-          type="datetime-local"
-          id="wd-due-date"
-          className="form-control mb-3"
-          defaultValue="2024-09-20T23:59"
-        />
-
-        <div className="row">
-          <div className="col-md-6">
-            <label htmlFor="wd-available-from" className="form-label">Available from</label>
-            <input 
-              type="datetime-local"
-              id="wd-available-from"
-              className="form-control"
-              defaultValue="2024-08-21T12:00"
-            />
-          </div>
-          <div className="col-md-6">
-            <label htmlFor="wd-available-until" className="form-label">Until</label>
-            <input 
-              type="datetime-local"
-              id="wd-available-until"
-              className="form-control"
-              defaultValue="2024-10-01T23:59"
-            />
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-    <div className="d-flex justify-content-end mt-3">
-      <button type="button" className="btn btn-secondary me-2">Cancel</button>
-      <button type="submit" className="btn btn-primary">Save</button>
-    </div>
-
-
-
-    </form>
-
-
-</div>
-
-
-
-
-
-
-          
-</div>
-
-      
-      
-  );}
+  const handleSave = () => {
+    const newAssignment: Assignment = {
+      _id: isNewAssignment ? new Date().getTime().toString() : aid || "",
+      title: assignmentName,
+      description: assignmentDescription,
+      points,
+      dueDate,
+      availableFrom,
+      availableUntil,
+      course: cid || "",
+    };
   
+    if (isNewAssignment) {
+      dispatch(addAssignment(newAssignment));
+    } else {
+      dispatch(updateAssignment(newAssignment));
+    }
+    navigate(`/Kanbas/Courses/${cid}/Assignments`);
+  };
+
+  const handleCancel = () => navigate(`/Kanbas/Courses/${cid}/Assignments`);
+
+  return (
+    <div id="wd-assignments-editor">
+      <h6>Assignment Name</h6>
+      <input
+        type="text"
+        className="form-control"
+        value={assignmentName}
+        onChange={(e) => setAssignmentName(e.target.value)}
+        placeholder="Assignment Name"
+      />
+      <h6>Description</h6>
+      <textarea
+        className="form-control"
+        rows={8}
+        value={assignmentDescription}
+        onChange={(e) => setAssignmentDescription(e.target.value)}
+        placeholder="Description"
+      ></textarea>
+      <h6>Points</h6>
+      <input
+        type="number"
+        className="form-control"
+        value={points}
+        onChange={(e) => setPoints(parseInt(e.target.value))}
+        placeholder="Points"
+      />
+      <h6>Due Date</h6>
+      <input
+        type="datetime-local"
+        className="form-control"
+        value={dueDate}
+        onChange={(e) => setDueDate(e.target.value)}
+      />
+      <h6>Available From</h6>
+      <input
+        type="datetime-local"
+        className="form-control"
+        value={availableFrom}
+        onChange={(e) => setAvailableFrom(e.target.value)}
+      />
+      <h6>Available Until</h6>
+      <input
+        type="datetime-local"
+        className="form-control"
+        value={availableUntil}
+        onChange={(e) => setAvailableUntil(e.target.value)}
+      />
+
+      <div className="d-flex justify-content-end mt-3">
+        <button type="button" className="btn btn-secondary me-2" onClick={handleCancel}>
+          Cancel
+        </button>
+        <button type="button" className="btn btn-primary" onClick={handleSave}>
+          Save
+        </button>
+      </div>
+    </div>
+  );
+}
+
+
+
+// export default function AssignmentEditor({
+//   assignmentName,
+//   setAssignmentName,
+//   assignmentDescription,
+//   setAssignmentDescription,
+//   points,
+//   setPoints,
+//   dueDate,
+//   setDueDate,
+//   availableFrom,
+//   setAvailableFrom,
+//   availableUntil,
+//   setAvailableUntil,
+//   addAssignment,
+// }: {
+//   assignmentName: string;
+//   setAssignmentName: (name: string) => void;
+//   assignmentDescription: string;
+//   setAssignmentDescription: (name: string) => void;
+//   points: number;
+//   setPoints: (points: number) => void;
+//   dueDate: string;
+//   setDueDate: (date: string) => void;
+//   availableFrom: string;
+//   setAvailableFrom: (date: string) => void;
+//   availableUntil: string;
+//   setAvailableUntil: (date: string) => void;
+//   addAssignment: () => void;
+// }) {
+//   const { cid, aid } = useParams();
+//   const navigate = useNavigate();
+//   const dispatch = useDispatch();
+//   const isNewAssignment = aid === "new";
+  
+//   const asssignments: Assignment[] = assignments;
+
+//   useEffect(() => {
+//     if (!isNewAssignment) {
+//       const currentAssignment = asssignments.find(
+//         (assignment) => assignment._id === aid && assignment.course === cid
+//       );
+//       if (currentAssignment) {
+//         setAssignmentName(currentAssignment.title);
+//         setAssignmentDescription(currentAssignment.description || "");
+//         setPoints(currentAssignment.points || 100); // Default to 100 points if undefined
+//         setDueDate(currentAssignment.dueDate || "");
+//         setAvailableFrom(currentAssignment.availableFrom || "");
+//         setAvailableUntil(currentAssignment.availableUntil || "");
+//       }
+//     }
+//   }, [aid, cid, isNewAssignment, setAssignmentName, setAssignmentDescription, setPoints, setDueDate, setAvailableFrom, setAvailableUntil]);
+
+//   const handleSave = () => {
+//     const newAssignment: Assignment = {
+//       _id: isNewAssignment ? new Date().getTime().toString() : aid || "",
+//       title: assignmentName,
+//       description: assignmentDescription,
+//       points: points || 100,
+//       dueDate: dueDate || "",
+//       availableFrom: availableFrom || "",
+//       availableUntil: availableUntil || "",
+//       course: cid || "",
+//     };
+  
+//     if (isNewAssignment) {
+//       dispatch(addAssignment(newAssignment));
+//     } else {
+//       dispatch(updateAssignment(newAssignment));
+//     }
+//     navigate(`/Kanbas/Courses/${cid}/Assignments`);
+//   };
+  
+//   const handleCancel = () => navigate(`/Kanbas/Courses/${cid}/Assignments`);

@@ -5,170 +5,106 @@ import { BsGripVertical } from "react-icons/bs";
 import AssigmentItemControlsButton from "./AssigmentItemControlsButton";
 import AssigmentTileControlsButton from "./AssigmentTileControlsButton";
 import { AiOutlineCaretDown } from "react-icons/ai";
-import { FaRegPenToSquare } from "react-icons/fa6";
-import { Link } from "react-router-dom";
+import { FaRegPenToSquare, FaTrash } from "react-icons/fa6";
+import { Link, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { deleteAssignment, addAssignment } from "./reducer";
+import { useState } from "react";
+import { useEffect } from "react";
+
+
+interface Assignment {
+  _id: string;
+  title: string;
+  course: string;
+  description?: string;
+  points?: number;
+  dueDate?: string;
+  availableFrom?: string;
+  availableUntil?: string;
+}
 
 export default function Assignments() {
   const { cid } = useParams();
-  const assignments = db.assignments;
-    return (
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { currentUser } = useSelector((state: any) => state.accountReducer);
 
-      <div id="wd-assignments">
-        <AssigmentControls /><br /><br />
+  const { assignments } = useSelector((state: any) => state.assignments);
 
 
-        <ul id="wd-modules" className="list-group rounded-0">
 
-              <li className="wd-module list-group-item p-0 mb-5 fs-5 border-gray">
-            <div className="wd-title p-3 ps-2 bg-secondary"> 
+
+  const handleDeleteAssignment = (assignmentId: string) => {
+    if (window.confirm("Are you sure you want to delete this assignment?")) {
+      dispatch(deleteAssignment(assignmentId));
+    }
+  };
+
+  return (
+    <div id="wd-assignments">
+      {currentUser.role === "FACULTY" && (
+      <AssigmentControls />
+    )}
+      <br /><br />
+
+      <ul id="wd-modules" className="list-group rounded-0">
+        <li className="wd-module list-group-item p-0 mb-5 fs-5 border-gray">
+          <div className="wd-title p-3 ps-2 bg-secondary">
             <BsGripVertical className="me-2 fs-3" />
             <AiOutlineCaretDown className="me-2 fs-5" />
             Assignment
             <AssigmentTileControlsButton />
-            </div>
+          </div>
 
-            <ul className="wd-lessons list-group rounded-0">
+          <ul className="wd-lessons list-group rounded-0">
             {assignments
-            .filter((assignments: any) => assignments.course === cid)
-            .map((assignments: any) => (
-              <li className="wd-lesson list-group-item p-3 ps-1 d-flex align-items-center">
-              <BsGripVertical className="me-2 fs-3" />
-              <FaRegPenToSquare className="me-2 fs-3 text-success" />
-              <div className="d-flex flex-column me-auto">
-                <Link to={`/Kanbas/Courses/${cid}/Assignments/${assignments._id}`} className="text-decoration-none">
-                    <span className="">{assignments.title}</span>
-                </Link>
-                <div className="text-muted" style={{ fontSize: '0.875rem' }}>
-                    <span className="text-danger"> Mutiple Modules </span> |
-                    <span className="fw-bold"> Not aviable until</span> END OF TEH WROLD |<br />
-                    <span className="fw-bold"> Due</span> After world end | 100 pts
-                  </div>
-              </div>
-              <AssigmentItemControlsButton />
-              </li>
-        ))}
-        </ul>
-      </li>
-    </ul>          {/* <li className="wd-module list-group-item p-0 mb-5 fs-5 border-gray">
-            <div className="wd-title p-3 ps-2 bg-secondary"> 
-            <BsGripVertical className="me-2 fs-3" />
-            <AiOutlineCaretDown className="me-2 fs-5" />
+              .filter((assignment: Assignment) => assignment.course === cid)
+              .map((assignment: Assignment) => (
+                <li key={assignment._id} className="wd-lesson list-group-item p-3 ps-1 d-flex align-items-center">
+                  <BsGripVertical className="me-2 fs-3" />
 
-            ASSIGNMENTS
-            <AssigmentTileControlsButton />
-            </div>
-            <ul className="wd-lessons list-group rounded-0">
-              <li className="wd-lesson list-group-item p-3 ps-1 d-flex align-items-center">
-              <BsGripVertical className="me-2 fs-3" />
-              <FaRegPenToSquare className="me-2 fs-3 text-success" />
-              <div className="d-flex flex-column me-auto">
-                <Link to="/Kanbas/Courses/1234/Assignments/123" className="text-decoration-none">
-                    <span className="">A1 - ENV + HTML</span>
-                </Link>
-                <div className="text-muted" style={{ fontSize: '0.875rem' }}>
-                    <span className="text-danger"> Mutiple Modules </span> |
-                    <span className="fw-bold"> Not aviable until</span> END OF TEH WROLD |<br />
-                    <span className="fw-bold"> Due</span> After world end | 100 pts
-                  </div>
-              </div>
-              <AssigmentItemControlsButton />
-              </li>
-              <li className="wd-lesson list-group-item p-3 ps-1 d-flex align-items-center">
-              <BsGripVertical className="me-2 fs-3" />
-              <FaRegPenToSquare className="me-2 fs-3 text-success" />
-              <div className="d-flex flex-column me-auto">
-                <Link to="/Kanbas/Courses/1234/Assignments/123" className="text-decoration-none">
-                    <span className="">A2 - CSS + BOOTSTRAP</span>
-                </Link>
-                <div className="text-muted" style={{ fontSize: '0.875rem' }}>
-                    <span className="text-danger"> Mutiple Modules </span> |
-                    <span className="fw-bold"> Not aviable until</span> END OF TEH WROLD |<br />
-                    <span className="fw-bold"> Due</span> After world end | 100 pts
-                  </div>
-              </div>
-
-              <AssigmentItemControlsButton />
-              </li>
-              <li className="wd-lesson list-group-item p-3 ps-1 d-flex align-items-center">
-              <BsGripVertical className="me-2 fs-3" />
-              <FaRegPenToSquare className="me-2 fs-3 text-success" />
-              <div className="d-flex flex-column me-auto">
-                <Link to="/Kanbas/Courses/1234/Assignments/123" className="text-decoration-none">
-                    <span className="">A3 - JAVASCRIPT + REACT</span>
-                </Link>
-                <div className="text-muted" style={{ fontSize: '0.875rem' }}>
-                    <span className="text-danger"> Mutiple Modules </span> |
-                    <span className="fw-bold"> Not aviable until</span> END OF TEH WROLD |<br />
-                    <span className="fw-bold"> Due</span> After world end | 100 pts
-                  </div>
-              </div>
-              
-                <AssigmentItemControlsButton /> </li>
-            </ul>
-          </li>
+                  {currentUser.role === "FACULTY" && (
+                  <FaRegPenToSquare
+                    className="me-2 fs-3 text-success"
+                    onClick={() => navigate(`/Kanbas/Courses/${cid}/Assignments/${assignment._id}`, { state: { assignment } })}
+                  />
+)}
 
 
-          <li className="wd-module list-group-item p-0 mb-5 fs-5 border-gray">
-            <div className="wd-title p-3 ps-2 bg-secondary"> 
-            <BsGripVertical className="me-2 fs-3" />
-            <AiOutlineCaretDown className="me-2 fs-5" />
-            PROJECT
-            <AssigmentTileControlsButton />
-             </div>
-            <ul className="wd-lessons list-group rounded-0">
-              <li className="wd-lesson list-group-item p-3 ps-1 d-flex align-items-center">
-              <BsGripVertical className="me-2 fs-3" />
-              <FaRegPenToSquare className="me-2 fs-3 text-success" />
-              
-              <div className="d-flex flex-column me-auto">
-                <Link to="/Kanbas/Courses/1234/Assignments/123" className="text-decoration-none">
-                    <span className="">P1 - Build Kanbas</span>
-                </Link>
-                <div className="text-muted" style={{ fontSize: '0.875rem' }}>
-                    <span className="text-danger"> Mutiple Modules </span> |
-                    <span className="fw-bold"> Not aviable until</span> END OF TEH WROLD |<br />
-                    <span className="fw-bold"> Due</span> After world end | 100 pts
+                  <div className="d-flex flex-column me-auto">
+                  {currentUser.role === "FACULTY" && (
+                    <Link to={`/Kanbas/Courses/${cid}/Assignments/${assignment._id}`} className="text-decoration-none">
+                      <span>{assignment.title}</span>
+                    </Link>
+                    )}
+                    {currentUser.role === "STUDENT" && (
+                      <span>{assignment.title}</span>
+   
+                    )}
+                    <div className="text-muted" style={{ fontSize: '0.875rem' }}>
+                      <span className="text-danger">Multiple Modules</span> |
+                      <span className="fw-bold"> Available from:</span> {assignment.availableFrom || "N/A"} |
+                      <span className="fw-bold"> Due:</span> {assignment.dueDate || "N/A"} | {assignment.points || "100"} pts
+                    </div>
                   </div>
-              </div>
-                <AssigmentItemControlsButton />
+                  <AssigmentItemControlsButton />
+
+
+                  {currentUser.role === "FACULTY" && (
+                  <FaTrash
+                    className="text-danger ms-3"
+                    style={{ cursor: "pointer" }}
+                    onClick={() => handleDeleteAssignment(assignment._id)}
+                  />
+                )}
+
+
                 </li>
-              <li className="wd-lesson list-group-item p-3 ps-1 d-flex align-items-center"> 
-              <BsGripVertical className="me-2 fs-3" />
-              <FaRegPenToSquare className="me-2 fs-3 text-success" />
-              <div className="d-flex flex-column me-auto">
-                <Link to="/Kanbas/Courses/1234/Assignments/123" className="text-decoration-none">
-                    <span className="">P2 - Build Fosbuuk</span>
-                </Link>
-                <div className="text-muted" style={{ fontSize: '0.875rem' }}>
-                    <span className="text-danger"> Mutiple Modules </span> |
-                    <span className="fw-bold"> Not aviable until</span> END OF TEH WROLD |<br />
-                    <span className="fw-bold"> Due</span> After world end | 100 pts
-                  </div>
-              </div>
-              <AssigmentItemControlsButton />
-              </li>
-              <li className="wd-lesson list-group-item p-3 ps-1 d-flex align-items-center"> 
-              <BsGripVertical className="me-2 fs-3" />
-              <FaRegPenToSquare className="me-2 fs-3 text-success" />
-              <div className="d-flex flex-column me-auto">
-                <Link to="/Kanbas/Courses/1234/Assignments/123" className="text-decoration-none">
-                    <span className="">P3 - Build Gulugulu</span>
-                </Link>
-                <div className="text-muted" style={{ fontSize: '0.875rem' }}>
-                    <span className="text-danger"> Mutiple Modules </span> |
-                    <span className="fw-bold"> Not aviable until</span> END OF TEH WROLD |<br />
-                    <span className="fw-bold"> Due</span> After world end | 100 pts
-                  </div>
-              </div>
-              <AssigmentItemControlsButton />
-               </li>
-            </ul>
-          </li>
-        </ul> */}
-
-
-
-        
-      </div>
-  );}
-  
+              ))}
+          </ul>
+        </li>
+      </ul>
+    </div>
+  );
+}
