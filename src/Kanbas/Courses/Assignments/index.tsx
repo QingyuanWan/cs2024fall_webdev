@@ -7,7 +7,10 @@ import { AiOutlineCaretDown } from "react-icons/ai";
 import { FaRegPenToSquare, FaTrash } from "react-icons/fa6";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { deleteAssignment } from "./reducer";
+import { deleteAssignment, setAssignments } from "./reducer";
+import { useState, useEffect } from "react";
+import * as coursesClient from "../client";
+import * as assignmentsClient from "./client";
 
 
 
@@ -26,6 +29,27 @@ export default function Assignments() {
   const { cid } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const removeAssignment = async (assignmentId: string) => {
+    await assignmentsClient.deleteAssignment(assignmentId);
+    dispatch(deleteAssignment(assignmentId));
+  };
+
+
+
+  
+  const fetchAssignments = async () => {
+    const assignments = await coursesClient.findAssignmentForModules(cid as string);
+    dispatch(setAssignments(assignments));
+  };
+  useEffect(() => {
+    fetchAssignments();
+  }, []);
+
+
+
+
+
   const { currentUser } = useSelector((state: any) => state.accountReducer);
 
   const { assignments } = useSelector((state: any) => state.assignments);
@@ -35,7 +59,7 @@ export default function Assignments() {
 
   const handleDeleteAssignment = (assignmentId: string) => {
     if (window.confirm("Are you sure you want to delete this assignment?")) {
-      dispatch(deleteAssignment(assignmentId));
+      removeAssignment(assignmentId);
     }
   };
 
@@ -57,7 +81,6 @@ export default function Assignments() {
 
           <ul className="wd-lessons list-group rounded-0">
             {assignments
-              .filter((assignment: Assignment) => assignment.course === cid)
               .map((assignment: Assignment) => (
                 <li key={assignment._id} className="wd-lesson list-group-item p-3 ps-1 d-flex align-items-center">
                   <BsGripVertical className="me-2 fs-3" />

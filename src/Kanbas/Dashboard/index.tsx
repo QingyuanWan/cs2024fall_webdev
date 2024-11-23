@@ -1,9 +1,17 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { enroll, unenroll } from "./reducer";
+import { setEnrollments, enroll, unenroll } from "./reducer";
+import * as coursesClient from "../Courses/client";
+import * as enrollmentsClient from "./client";
 
-
+interface Course {
+  _id: string;
+  name: string;
+  description: string;
+  startDate?: string;
+  endDate?: string;
+}
 
 export default function Dashboard({
   courses,
@@ -13,11 +21,11 @@ export default function Dashboard({
   deleteCourse,
   updateCourse,
 }: {
-  courses: any[];
-  course: any;
-  setCourse: (course: any) => void;
+  courses: Course[];
+  course: Course;
+  setCourse: (course: Course) => void;
   addNewCourse: () => void;
-  deleteCourse: (course: any) => void;
+  deleteCourse: (courseId: string) => void;
   updateCourse: () => void;
 }) {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
@@ -25,34 +33,40 @@ export default function Dashboard({
   const dispatch = useDispatch();
 
   const [showAllCourses, setShowAllCourses] = useState(false);
+  const [allCourses, setAllCourses] = useState<Course[]>([]);
 
-  const toggleShowAllCourses = () => {
+  const toggleShowAllCourses = async () => {
+    if (!showAllCourses) {
+      try {
+        const fetchedCourses = await coursesClient.findAllCourses();
+        setAllCourses(fetchedCourses);
+      } catch (error) {
+        console.error("Error fetching all courses:", error);
+      }
+    }
     setShowAllCourses(!showAllCourses);
   };
 
-  const handleEnrollmentChange = (courseId: string) => {
+  const handleEnrollmentChange = async (courseId: string) => {
     const isEnrolled = enrollments.some(
-      (enrollment: any) => enrollment.user === currentUser._id && enrollment.course === courseId
+      (enrollment: any) =>
+        enrollment.user === currentUser._id && enrollment.course === courseId
     );
 
-    if (isEnrolled) {
-      dispatch(unenroll({ user: currentUser._id, course: courseId }));
-    } else {
-      dispatch(enroll({ user: currentUser._id, course: courseId }));
+    try {
+      if (isEnrolled) {
+        await enrollmentsClient.unenrollUserFromCourse(currentUser._id, courseId);
+        dispatch(unenroll({ user: currentUser._id, course: courseId }));
+      } else {
+        await enrollmentsClient.enrollUserInCourse(currentUser._id, courseId);
+        dispatch(enroll({ user: currentUser._id, course: courseId }));
+      }
+    } catch (error) {
+      console.error("Error changing enrollment status:", error);
     }
   };
 
-  // Show all courses for FACULTY or filter for STUDENT based on enrollment
-  const displayedCourses = currentUser.role === "FACULTY"
-    ? courses
-    : showAllCourses
-      ? courses
-      : courses.filter((course) =>
-          enrollments.some(
-            (enrollment: any) =>
-              enrollment.user === currentUser._id && enrollment.course === course._id
-          )
-        );
+  const displayedCourses = showAllCourses ? allCourses : courses;
 
   return (
     <div id="wd-dashboard">
@@ -85,102 +99,157 @@ export default function Dashboard({
         </>
       )}
 
-      {/* Enrollment toggle button for students */}
-      {currentUser.role === "STUDENT" && (
-        <button
-          className="btn btn-info float-end"
-          onClick={toggleShowAllCourses}
-          style={{ marginBottom: "10px" }}
-        >
-          {showAllCourses ? "Show Enrolled Courses" : "Show All Courses"}
-        </button>
-      )}
+      <button
+        className="btn btn-info float-end"
+        onClick={toggleShowAllCourses}
+        style={{ marginBottom: "10px" }}
+      >
+        {showAllCourses ? "Show Enrolled Courses" : "Show All Courses"}
+      </button>
 
-      <h2 id="wd-dashboard-published">Published Courses ({displayedCourses.length})</h2>
+      <h2 id="wd-dashboard-published">
+        Published Courses ({displayedCourses.length})
+      </h2>
       <hr />
 
       {/* Courses list */}
       <div id="wd-dashboard-courses" className="row">
         <div className="row row-cols-1 row-cols-md-5 g-4">
-          {displayedCourses.map((course) => (
-            <div key={course._id} className="wd-dashboard-course col" style={{ width: "300px" }}>
-              <div className="card rounded-3 overflow-hidden">
-                <Link
-                  to={
-                    currentUser.role === "FACULTY" ||
-                    enrollments.some(
-                      (enrollment: any) =>
-                        enrollment.user === currentUser._id && enrollment.course === course._id
-                    )
-                      ? `/Kanbas/Courses/${course._id}/Home`
-                      : "#"
-                  }
-                  className="wd-dashboard-course-link text-decoration-none text-dark"
-                >
-                  <img src="/images/reactjs.jpg" width="100%" height={160} alt="" />
-                  <div className="card-body">
-                    <h5 className="wd-dashboard-course-title card-title">{course.name}</h5>
-                    <p
-                      className="wd-dashboard-course-title card-text overflow-y-hidden"
-                      style={{ maxHeight: 100 }}
-                    >
-                      {course.description}
-                    </p>
-                    <button className="btn btn-primary">Go</button>
+          {displayedCourses.map((course: Course) => {
+            const isEnrolled = enrollments.some(
+              (enrollment: any) =>
+                enrollment.user === currentUser._id && enrollment.course === course._id
+            );
 
-                    {/* Faculty-specific controls */}
-                    {currentUser.role === "FACULTY" && (
-                      <>
-                        <button
-                          onClick={(event) => {
-                            event.preventDefault();
-                            deleteCourse(course._id);
-                          }}
-                          className="btn btn-danger float-end"
-                        >
-                          Delete
-                        </button>
-                        <button
-                          onClick={(event) => {
-                            event.preventDefault();
-                            setCourse(course);
-                          }}
-                          className="btn btn-warning me-2 float-end"
-                        >
-                          Edit
-                        </button>
-                      </>
-                    )}
-
-                    {/* Student enrollment controls */}
-                    {currentUser.role === "STUDENT" && (
-                      <button
-                        className={`btn ${
-                          enrollments.some(
-                            (enrollment: any) =>
-                              enrollment.user === currentUser._id && enrollment.course === course._id
-                          )
-                            ? "btn-danger"
-                            : "btn-success"
-                        } float-end`}
-                        onClick={(event) => {
-                          event.preventDefault();
-                          handleEnrollmentChange(course._id);
-                        }}
+            return (
+              <div
+                key={course._id}
+                className="wd-dashboard-course col"
+                style={{ width: "300px" }}
+              >
+                <div className="card rounded-3 overflow-hidden">
+                  <Link
+                    to={
+                      isEnrolled || currentUser.role === "FACULTY"
+                        ? `/Kanbas/Courses/${course._id}/Home`
+                        : "#"
+                    }
+                    className="wd-dashboard-course-link text-decoration-none text-dark"
+                  >
+                    <img
+                      src="/images/reactjs.jpg"
+                      width="100%"
+                      height={160}
+                      alt=""
+                    />
+                    <div className="card-body">
+                      <h5 className="wd-dashboard-course-title card-title">
+                        {course.name}
+                      </h5>
+                      <p
+                        className="wd-dashboard-course-title card-text overflow-y-hidden"
+                        style={{ maxHeight: 100 }}
                       >
-                        {enrollments.some(
-                          (enrollment: any) =>
-                            enrollment.user === currentUser._id && enrollment.course === course._id
-                        )
-                          ? "Unenroll"
-                          : "Enroll"}
+                        {course.description}
+                      </p>
+
+                      {/* Enrollment button */}
+                      {showAllCourses && (
+                          <>
+                            <button
+                              className="btn btn-success me-2"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                enrollmentsClient
+                                  .enrollUserInCourse(currentUser._id, course._id)
+                                  .then(() => {
+                                    dispatch(enroll({ user: currentUser._id, course: course._id }));
+                                    window.location.reload();
+                                  })
+                                  .catch((error) => console.error("Error enrolling:", error));
+                              }}
+                            >
+                              Enroll
+                            </button>
+
+                            {/* Unenroll button */}
+                            <button
+                              className="btn btn-danger"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                enrollmentsClient
+                                  .unenrollUserFromCourse(currentUser._id, course._id)
+                                  .then(() => {
+                                    dispatch(unenroll({ user: currentUser._id, course: course._id }));
+                                    window.location.reload(); 
+                                  })
+                                  .catch((error) => console.error("Error unenrolling:", error));
+                              }}
+                            >
+                              Unenroll
+                            </button>
+                          </>
+                        )}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                      {!showAllCourses && (
+                      <button
+                        className="btn btn-primary me-2"
+                        onClick={(e) => e.preventDefault()}
+                      >
+                        Go
                       </button>
                     )}
-                  </div>
-                </Link>
+                      {/* Faculty only controls */}
+                      {currentUser.role === "FACULTY" && !showAllCourses && (
+                        <>
+                          <button
+                            className="btn btn-warning me-2 float-end"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              setCourse(course);
+                            }}
+                          >
+                            Edit
+                          </button>
+                          <button
+                            className="btn btn-danger float-end"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              deleteCourse(course._id);
+                            }}
+                          >
+                            Delete
+                          </button>
+                        </>
+                      )}
+                    </div>
+                  </Link>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </div>

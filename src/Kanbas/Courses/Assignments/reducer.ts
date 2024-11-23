@@ -17,13 +17,17 @@ interface AssignmentsState {
 }
 
 const initialState: AssignmentsState = {
-  assignments: assignments,
+  assignments: [],
 };
 
 const assignmentsSlice = createSlice({
   name: "assignments",
   initialState,
   reducers: {
+    setAssignments: (state, action) => {
+      state.assignments = action.payload;
+    },
+
     addAssignment: (state, action: PayloadAction<Assignment>) => {
       state.assignments.push(action.payload);
     },
@@ -41,5 +45,5 @@ const assignmentsSlice = createSlice({
   },
 });
 
-export const { addAssignment, updateAssignment, deleteAssignment } = assignmentsSlice.actions;
+export const { addAssignment, updateAssignment, deleteAssignment, setAssignments } = assignmentsSlice.actions;
 export default assignmentsSlice.reducer;
