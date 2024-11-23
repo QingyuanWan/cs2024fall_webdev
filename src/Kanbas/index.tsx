@@ -37,11 +37,17 @@ export default function Kanbas() {
 
 
   
+
   const deleteCourse = async (courseId: string) => {
-    // const status = await courseClient.deleteCourse(courseId);
+    const status = await courseClient.deleteCourse(courseId);
+  
+    // need use status so Netxxfy not reject my code,lamo
+    console.log(`Delete status for course ${courseId}:`, status);
+  
     setCourses(courses.filter((course) => course._id !== courseId));
   };
-
+  
+  
   
   const updateCourse = async () => {
     await courseClient.updateCourse(course);
