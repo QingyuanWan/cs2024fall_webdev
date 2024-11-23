@@ -2,9 +2,11 @@ import * as client from "./client";
 import { useEffect, useState } from "react";
 import { setCurrentUser } from "./reducer";
 import { useDispatch } from "react-redux";
+
 export default function Session({ children }: { children: any }) {
   const [pending, setPending] = useState(true);
   const dispatch = useDispatch();
+
   const fetchProfile = async () => {
     try {
       const currentUser = await client.profile();
@@ -14,9 +16,11 @@ export default function Session({ children }: { children: any }) {
     }
     setPending(false);
   };
+
   useEffect(() => {
-    fetchProfile();
-  }, []);
+    fetchProfile(); // Since it's defined outside, no missing dependency issue
+  }, []); // Safe to leave an empty array here
+
   if (!pending) {
     return children;
   }

@@ -8,7 +8,7 @@ import { FaRegPenToSquare, FaTrash } from "react-icons/fa6";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { deleteAssignment, setAssignments } from "./reducer";
-import { useState, useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import * as coursesClient from "../client";
 import * as assignmentsClient from "./client";
 
@@ -38,14 +38,18 @@ export default function Assignments() {
 
 
   
-  const fetchAssignments = async () => {
-    const assignments = await coursesClient.findAssignmentForModules(cid as string);
-    dispatch(setAssignments(assignments));
-  };
+  const fetchAssignments = useCallback(async () => {
+    try {
+      const assignments = await coursesClient.findAssignmentForModules(cid as string);
+      dispatch(setAssignments(assignments));
+    } catch (error) {
+      console.error("Error fetching assignments:", error);
+    }
+  }, [cid, dispatch]);
+
   useEffect(() => {
     fetchAssignments();
-  }, []);
-
+  }, [fetchAssignments]);
 
 
 

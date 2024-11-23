@@ -2,7 +2,7 @@ import { useParams } from "react-router";
 import ModulesControls from "./ModulesControls";
 import LessonControlButtons from "./LessonControlButtons";
 import ModuleControlButtons from "./ModuleControlButtons";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 import { BsGripVertical } from "react-icons/bs";
 import { setModules, addModule, editModule, updateModule, deleteModule }
@@ -35,15 +35,19 @@ export default function Modules() {
     dispatch(updateModule(module));
   };
 
-  const fetchModules = async () => {
-    const modules = await coursesClient.findModulesForCourse(cid as string);
-    dispatch(setModules(modules));
-  };
+
+  const fetchModules = useCallback(async () => {
+    try {
+      const modules = await coursesClient.findModulesForCourse(cid as string);
+      dispatch(setModules(modules));
+    } catch (error) {
+      console.error("Error fetching modules:", error);
+    }
+  }, [cid, dispatch]);
+
   useEffect(() => {
     fetchModules();
-  }, []);
-
-
+  }, [fetchModules]);
 
     return (
       <div>

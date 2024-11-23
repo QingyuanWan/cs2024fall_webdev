@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setEnrollments, enroll, unenroll } from "./reducer";
+import { enroll, unenroll } from "./reducer";
 import * as coursesClient from "../Courses/client";
 import * as enrollmentsClient from "./client";
 
@@ -47,24 +47,24 @@ export default function Dashboard({
     setShowAllCourses(!showAllCourses);
   };
 
-  const handleEnrollmentChange = async (courseId: string) => {
-    const isEnrolled = enrollments.some(
-      (enrollment: any) =>
-        enrollment.user === currentUser._id && enrollment.course === courseId
-    );
+  // const handleEnrollmentChange = async (courseId: string) => {
+  //   const isEnrolled = enrollments.some(
+  //     (enrollment: any) =>
+  //       enrollment.user === currentUser._id && enrollment.course === courseId
+  //   );
 
-    try {
-      if (isEnrolled) {
-        await enrollmentsClient.unenrollUserFromCourse(currentUser._id, courseId);
-        dispatch(unenroll({ user: currentUser._id, course: courseId }));
-      } else {
-        await enrollmentsClient.enrollUserInCourse(currentUser._id, courseId);
-        dispatch(enroll({ user: currentUser._id, course: courseId }));
-      }
-    } catch (error) {
-      console.error("Error changing enrollment status:", error);
-    }
-  };
+  //   try {
+  //     if (isEnrolled) {
+  //       await enrollmentsClient.unenrollUserFromCourse(currentUser._id, courseId);
+  //       dispatch(unenroll({ user: currentUser._id, course: courseId }));
+  //     } else {
+  //       await enrollmentsClient.enrollUserInCourse(currentUser._id, courseId);
+  //       dispatch(enroll({ user: currentUser._id, course: courseId }));
+  //     }
+  //   } catch (error) {
+  //     console.error("Error changing enrollment status:", error);
+  //   }
+  // };
 
   const displayedCourses = showAllCourses ? allCourses : courses;
 
