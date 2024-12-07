@@ -22,14 +22,18 @@ export default function Kanbas() {
     setCourses(courses.filter((course) => course._id !== courseId));
   };
 
-  const findCoursesForUser = async () => {
-    try {
-      const courses = await userClient.findCoursesForUser(currentUser._id);
-      setCourses(courses);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  // const findCoursesForUser = async () => {
+  //   try {
+  //     const courses = await userClient.findCoursesForUser(currentUser._id);
+  //     setCourses(courses);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+
+
+
+
   // const fetchCourses = async () => {
   //   try {
   //     const allCourses = await courseClient.fetchAllCourses();
@@ -56,6 +60,18 @@ export default function Kanbas() {
   //     findCoursesForUser();
   //   }
   // }, [currentUser, enrolling]);
+
+
+
+  const findCoursesForUser = useCallback(async () => {
+    try {
+      const courses = await userClient.findCoursesForUser(currentUser._id);
+      setCourses(courses);
+    } catch (error) {
+      console.error(error);
+    }
+  }, [currentUser]);
+
 
   const fetchCourses = useCallback(async () => {
     try {
