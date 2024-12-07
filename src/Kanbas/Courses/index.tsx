@@ -8,6 +8,7 @@ import AssignmentEditor from "./Assignments/Editor";
 import { FaAlignJustify } from "react-icons/fa";
 import PeopleTable from "./People/Table";
 import ProtectedRoute from "../Account/ProtectedRoute";
+import PeopleIndex from "./People/index"; 
 
 export default function Courses({ courses }: { courses: any[]; }) {
   const { cid } = useParams();
@@ -36,7 +37,7 @@ export default function Courses({ courses }: { courses: any[]; }) {
                   <AssignmentEditor />
                 </ProtectedRoute>
               } />
-              <Route path="People" element={<PeopleTable />} />
+              <Route path="People" element={<PeopleIndex />} />
             </Routes>
             </div></div>
     </div>
