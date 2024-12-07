@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 export default function Dashboard({
@@ -23,7 +23,7 @@ export default function Dashboard({
   updateEnrollment: (course: string, enrolled: boolean) => void;
 }) {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
-
+  console.log(`show current user: ${currentUser}`);//for netify
   return (
     <div id="wd-dashboard">
       <button
@@ -76,7 +76,7 @@ export default function Dashboard({
                   to={`/Kanbas/Courses/${course._id}/Home`}
                   className="wd-dashboard-course-link text-decoration-none text-dark"
                 >
-                  <img src="/images/reactjs.jpg" width="100%" />
+                  <img src="/images/reactjs.jpg" alt="" width="100%" />
                   <div className="card-body">
                     {enrolling && (
                       <button

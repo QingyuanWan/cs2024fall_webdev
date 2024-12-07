@@ -6,7 +6,7 @@ import Home from "./Home";
 import Assignments from "./Assignments";
 import AssignmentEditor from "./Assignments/Editor";
 import { FaAlignJustify } from "react-icons/fa";
-import PeopleTable from "./People/Table";
+//import PeopleTable from "./People/Table";
 import ProtectedRoute from "../Account/ProtectedRoute";
 import PeopleIndex from "./People/index"; 
 

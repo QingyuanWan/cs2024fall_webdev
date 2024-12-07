@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Routes, Route, Navigate } from "react-router";
 import Account from "./Account";
 import Courses from "./Courses";
 import Dashboard from "./Dashboard";
 import KanbasNavigation from "./Navigation";
-import { Provider, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import "./styles.css";
 import ProtectedRoute from "./Account/ProtectedRoute";
 import * as courseClient from "./Courses/client";
@@ -17,6 +17,7 @@ export default function Kanbas() {
 
   const deleteCourse = async (courseId: string) => {
     const status = await courseClient.deleteCourse(courseId);
+    console.log(`Show status: ${status}`);//for netify
     // const status = await courseClient.deleteCourse(courseId);
     setCourses(courses.filter((course) => course._id !== courseId));
   };
@@ -29,7 +30,34 @@ export default function Kanbas() {
       console.error(error);
     }
   };
-  const fetchCourses = async () => {
+  // const fetchCourses = async () => {
+  //   try {
+  //     const allCourses = await courseClient.fetchAllCourses();
+  //     const enrolledCourses = await userClient.findCoursesForUser(
+  //       currentUser._id
+  //     );
+  //     const courses = allCourses.map((course: any) => {
+  //       if (enrolledCourses.find((c: any) => c._id === course._id)) {
+  //         return { ...course, enrolled: true };
+  //       } else {
+  //         return course;
+  //       }
+  //     });
+  //     setCourses(courses);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   if (enrolling) {
+  //     fetchCourses();
+  //   } else {
+  //     findCoursesForUser();
+  //   }
+  // }, [currentUser, enrolling]);
+
+  const fetchCourses = useCallback(async () => {
     try {
       const allCourses = await courseClient.fetchAllCourses();
       const enrolledCourses = await userClient.findCoursesForUser(
@@ -46,7 +74,7 @@ export default function Kanbas() {
     } catch (error) {
       console.error(error);
     }
-  };
+  }, [currentUser]);
 
   useEffect(() => {
     if (enrolling) {
@@ -54,7 +82,9 @@ export default function Kanbas() {
     } else {
       findCoursesForUser();
     }
-  }, [currentUser, enrolling]);
+  }, [currentUser, enrolling, fetchCourses, findCoursesForUser]);
+
+
 
   const [course, setCourse] = useState<any>({
     _id: "0",

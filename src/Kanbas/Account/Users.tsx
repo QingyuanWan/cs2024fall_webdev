@@ -8,6 +8,7 @@ export default function Users() {
   const { uid } = useParams();
   const [role, setRole] = useState("");
   const [name, setName] = useState("");
+  console.log(`Filtering users by name: ${name}`);//for netify
   const createUser = async () => {
     const user = await client.createUser({
       firstName: "New",
