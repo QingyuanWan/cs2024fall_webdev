@@ -9,6 +9,11 @@ import { FaAlignJustify } from "react-icons/fa";
 //import PeopleTable from "./People/Table";
 import ProtectedRoute from "../Account/ProtectedRoute";
 import PeopleIndex from "./People/index"; 
+import Quizzes from "./Quizzes";
+import QuizPreview from "./Quizzes/QuizPreview";
+import QuizEditor from "./Quizzes/QuizEditor";
+import QuizDetails from "./Quizzes/QuizDetails";
+import QuizTake from "./Quizzes/QuizTake";
 
 export default function Courses({ courses }: { courses: any[]; }) {
   const { cid } = useParams();
@@ -38,6 +43,14 @@ export default function Courses({ courses }: { courses: any[]; }) {
                 </ProtectedRoute>
               } />
               <Route path="People" element={<PeopleIndex />} />
+              <Route path="Quizzes" element={<Quizzes />} />
+            <Route path="Quizzes/preview/:quizId" element={<QuizPreview />} />
+            <Route path="Quizzes/:quizId/edit" element={<QuizEditor />} />
+            <Route path="Quizzes/:quizId/details" element={<QuizDetails />} />
+            <Route path="Quizzes/:quizId/take" element={<QuizTake />} />
+
+
+
             </Routes>
             </div></div>
     </div>

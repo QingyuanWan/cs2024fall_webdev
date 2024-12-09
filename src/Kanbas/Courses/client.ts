@@ -3,6 +3,10 @@ const axiosWithCredentials = axios.create({ withCredentials: true });
 
 const REMOTE_SERVER = process.env.REACT_APP_REMOTE_SERVER;
 const COURSES_API = `${REMOTE_SERVER}/api/courses`;
+const QUIZZES_API = `${REMOTE_SERVER}/api/quizzes`;
+
+
+
 export const fetchAllCourses = async () => {
   const { data } = await axiosWithCredentials.get(COURSES_API);
   return data;
@@ -64,3 +68,61 @@ export const deleteCourse = async (id: string) => {
     return response.data;
    };
    
+
+
+
+
+
+   
+
+
+
+
+
+
+
+
+// Fetch quizzes for a course
+export const findQuizzesForCourse = async (courseId: string) => {
+  const response = await axiosWithCredentials.get(`${COURSES_API}/${courseId}/quizzes`);
+  return response.data;
+};
+
+// Create a quiz
+export const createQuizForCourse = async (courseId: string, quiz: any) => {
+  const response = await axiosWithCredentials.post(`${COURSES_API}/${courseId}/quizzes`, quiz);
+  return response.data;
+};
+
+// Fetch a single quiz
+export const findQuizById = async (quizId: string) => {
+  const response = await axiosWithCredentials.get(`${QUIZZES_API}/${quizId}`);
+  return response.data;
+};
+
+// Update a quiz
+export const updateQuiz = async (quiz: any) => {
+  const response = await axiosWithCredentials.put(`${QUIZZES_API}/${quiz._id}`, quiz);
+  return response.data;
+};
+
+// Delete a quiz
+export const deleteQuiz = async (quizId: string) => {
+  const response = await axiosWithCredentials.delete(`${QUIZZES_API}/${quizId}`);
+  return response.data;
+};
+// Fetch quiz preview by ID (same as findQuizById here)
+export const fetchQuizPreview = async (quizId: string) => {
+  const response = await axiosWithCredentials.get(`${QUIZZES_API}/${quizId}`);
+  return response.data;
+};
+
+export const fetchQuizAttempt = async (quizId: string) => {
+  const response = await axiosWithCredentials.get(`${QUIZZES_API}/${quizId}/attempts/current`);
+  return response.data; // {quiz, attempt, attemptsUsed, attemptsRemaining}
+};
+
+export const submitQuizAttempt = async (quizId: string, answers: any[]) => {
+  const response = await axiosWithCredentials.post(`${QUIZZES_API}/${quizId}/attempts`, { answers });
+  return response.data; // {score, answers, attemptDate}
+};
