@@ -17,8 +17,7 @@ export default function FillInTheBlankEditor({ onSave, onCancel }: any) {
   };
 
   const handleSave = () => {
-    // onSave returns updated question data to the parent
-    // The parent component should re-sum the quiz points after this update.
+    // this goes partent
     onSave({
       title,
       points,

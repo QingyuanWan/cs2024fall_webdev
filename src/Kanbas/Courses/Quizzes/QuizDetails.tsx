@@ -27,7 +27,6 @@ export default function QuizDetails() {
   const isFaculty = currentUser?.role === "FACULTY";
   const isStudent = currentUser?.role === "STUDENT";
 
-  // Extract attemptsRemaining and attempt from attemptInfo if student
   let attemptsRemaining = 0;
   let lastAttempt = null;
   if (isStudent && attemptInfo) {
@@ -35,8 +34,7 @@ export default function QuizDetails() {
     lastAttempt = attemptInfo.attempt;
   }
 
-  // Compute AttemptsAllowed based on quiz.maxAttemptsAllowed
-  // If multiple attempts not allowed, maxAttemptsAllowed should effectively be 1.
+  // dteremin attemp time
   const attemptsAllowed = quiz.multipleAttemptsAllowed ? (quiz.maxAttemptsAllowed ?? 1) : 1;
 
   return (
@@ -60,7 +58,6 @@ export default function QuizDetails() {
         <li><strong>Available date:</strong> {quiz.availableFrom ? new Date(quiz.availableFrom).toLocaleString() : "None"}</li>
         <li><strong>Until date:</strong> {quiz.availableUntil ? new Date(quiz.availableUntil).toLocaleString() : "None"}</li>
 
-        {/* Show attempts allowed and remaining only for students and if attemptInfo is available */}
         {isStudent && attemptInfo && (
           <>
             <li><strong>Attempts Allowed:</strong> {attemptsAllowed}</li>
@@ -89,7 +86,6 @@ export default function QuizDetails() {
 
         {isStudent && attemptInfo && (
           <>
-            {/* If attempts remain, show Start Quiz button */}
             {attemptsRemaining > 0 && (
               <button
                 className="btn btn-success"

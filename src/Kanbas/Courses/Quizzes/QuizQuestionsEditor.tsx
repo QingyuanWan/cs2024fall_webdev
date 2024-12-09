@@ -11,10 +11,10 @@ interface Question {
 }
 
 interface QuizQuestionsEditorProps {
-  quiz: any; // The quiz object from parent
+  quiz: any; 
   setQuiz: (updatedQuiz: any) => void;
-  onSave: () => void;   // Called when user clicks "Save" at bottom
-  onCancel: () => void; // Called when user clicks "Cancel" at bottom
+  onSave: () => void; 
+  onCancel: () => void; 
   isFaculty: boolean;
 }
 
@@ -38,7 +38,7 @@ export default function QuizQuestionsEditor({ quiz, setQuiz, onSave, onCancel, i
   const handleNewQuestion = () => {
     const newQ = { ...defaultQuestion };
     setQuiz({ ...quiz, questions: [...questions, newQ] });
-    setEditingIndex(questions.length); // edit the newly added question
+    setEditingIndex(questions.length);
     setEditingQuestion({ ...newQ });
   };
 
@@ -77,7 +77,6 @@ export default function QuizQuestionsEditor({ quiz, setQuiz, onSave, onCancel, i
     setEditingQuestion(updated);
   };
 
-  // Editors for different question types:
   const renderMultipleChoiceEditor = () => {
     if (!editingQuestion) return null;
     const { title, points, questionText, options = [], correctAnswers = [] } = editingQuestion;

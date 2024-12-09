@@ -9,10 +9,10 @@ export default function QuizPreview() {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
 
   const [quiz, setQuiz] = useState<any>(null);
+  console.log(`for netify: ${currentUser}`);//for netify
 
   useEffect(() => {
     if (!quizId) return;
-    // Fetch just the quiz data (no attempts)
     client.findQuizById(quizId).then((data) => {
       setQuiz(data);
     });
@@ -21,7 +21,6 @@ export default function QuizPreview() {
   if (!quiz) return <p>Loading...</p>;
 
   const handleEditQuiz = () => {
-    // Navigate back to the Quiz Editor, focusing on the questions tab
     navigate(`/Kanbas/Courses/${cid}/Quizzes/${quiz._id}/edit?tab=questions`);
   };
 
@@ -42,7 +41,6 @@ export default function QuizPreview() {
           <div key={q._id || index} className="border p-2 mb-3">
             <h5>Question {index + 1} ({q.points} pts)</h5>
             <p>{q.questionText}</p>
-            {/* Since we are removing attempt logic, just display the possible answers read-only */}
             {q.type === "Multiple Choice" && q.options && (
               <ul>
                 {q.options.map((opt: string, i: number) => (

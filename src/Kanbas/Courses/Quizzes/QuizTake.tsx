@@ -11,13 +11,13 @@ interface AttemptAnswer {
 export default function QuizTake() {
   const { quizId, cid } = useParams();
   const { currentUser } = useSelector((state: any) => state.accountReducer);
-
+  console.log(`for netify: ${cid}`);//for netify
   const [quiz, setQuiz] = useState<any>(null);
   const [attempt, setAttempt] = useState<any>(null);
   const [attemptsRemaining, setAttemptsRemaining] = useState<number>(0);
   const [answers, setAnswers] = useState<AttemptAnswer[]>([]);
   const [submitted, setSubmitted] = useState(false);
-  const [loading, setLoading] = useState(true); // loading state
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!quizId || !currentUser) return;
@@ -32,11 +32,9 @@ export default function QuizTake() {
       setAttemptsRemaining(data.attemptsRemaining);
 
       if (data.attempt) {
-        // Previous attempt exists
         setAnswers(data.attempt.answers);
         setSubmitted(true);
       } else {
-        // No previous attempt
         if (data.attemptsRemaining > 0) {
           if (data.quiz.questions && data.quiz.questions.length > 0) {
             const blankAnswers = data.quiz.questions.map((q: any) => ({
@@ -45,11 +43,9 @@ export default function QuizTake() {
             setAnswers(blankAnswers);
             setSubmitted(false);
           } else {
-            // No questions found
             setSubmitted(true); 
           }
         } else {
-          // No attempts remaining
           setSubmitted(true);
         }
       }

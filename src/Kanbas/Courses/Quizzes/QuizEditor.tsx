@@ -37,7 +37,6 @@ export default function QuizEditor() {
   useEffect(() => {
     if (!isNewQuiz && quizId) {
       client.findQuizById(quizId).then((data) => {
-        // Ensure maxAttemptsAllowed is set to 1 if multiple attempts is false
         let updated = { ...data };
         if (!updated.multipleAttemptsAllowed) {
           updated.maxAttemptsAllowed = 1;
@@ -47,17 +46,14 @@ export default function QuizEditor() {
     }
   }, [quizId, isNewQuiz]);
 
-  // Calculate total points from questions
   const totalPoints = (quiz.questions || []).reduce((acc: number, q: any) => acc + (q.points || 0), 0);
 
   const handleSave = async () => {
-    // If multiple attempts is No, ensure maxAttemptsAllowed = 1
     const toSave = { ...quiz };
     if (!toSave.multipleAttemptsAllowed) {
       toSave.maxAttemptsAllowed = 1;
     }
   
-    // Recalculate total points and update quiz.points
     const totalPoints = (toSave.questions || []).reduce((acc: number, q: any) => acc + (q.points || 0), 0);
     toSave.points = totalPoints;
   
@@ -76,7 +72,7 @@ export default function QuizEditor() {
       toSave.maxAttemptsAllowed = 1;
     }
   
-    // Recalculate total points and update quiz.points
+    // total point update quiz.points
     const totalPoints = (toSave.questions || []).reduce((acc: number, q: any) => acc + (q.points || 0), 0);
     toSave.points = totalPoints;
   
@@ -93,9 +89,7 @@ export default function QuizEditor() {
   };
 
   const handleQuestionsSave = async () => {
-    // Save questions updates
     await client.updateQuiz({ ...quiz, _id: quizId });
-    // Stay here or navigate as needed. Here we just stay.
   };
 
   const handleQuestionsCancel = async () => {
@@ -290,7 +284,7 @@ export default function QuizEditor() {
             </select>
           </div>
 
-          {/* Dates */}
+          
           <div className="mb-3">
             <label className="fw-bold">Due date</label>
             <input

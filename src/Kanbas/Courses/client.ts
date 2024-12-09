@@ -82,7 +82,7 @@ export const deleteCourse = async (id: string) => {
 
 
 
-// Fetch quizzes for a course
+//  quizzes for a course
 export const findQuizzesForCourse = async (courseId: string) => {
   const response = await axiosWithCredentials.get(`${COURSES_API}/${courseId}/quizzes`);
   return response.data;
@@ -111,7 +111,7 @@ export const deleteQuiz = async (quizId: string) => {
   const response = await axiosWithCredentials.delete(`${QUIZZES_API}/${quizId}`);
   return response.data;
 };
-// Fetch quiz preview by ID (same as findQuizById here)
+// Fetch quiz preview by ID
 export const fetchQuizPreview = async (quizId: string) => {
   const response = await axiosWithCredentials.get(`${QUIZZES_API}/${quizId}`);
   return response.data;
