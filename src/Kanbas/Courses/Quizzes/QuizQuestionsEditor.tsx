@@ -94,10 +94,8 @@ export default function QuizQuestionsEditor({ quiz, setQuiz, onSave, onCancel, i
     const handleRemoveOption = (optIndex: number) => {
       const updatedOptions = [...options];
       updatedOptions.splice(optIndex, 1);
-      // If removed option was correct, reset correctAnswers if needed
       let updatedCorrect = correctAnswers;
       if (updatedCorrect && updatedCorrect.includes(options[optIndex])) {
-        // Default to first option if any left
         if (updatedOptions.length > 0) {
           updatedCorrect = [updatedOptions[0]];
         } else {

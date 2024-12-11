@@ -140,16 +140,6 @@ export default function Quizzes() {
                         {quiz.published ? "Unpublish" : "Publish"}
                       </button>
                     </li>
-                    <li>
-                      <button className="dropdown-item" disabled>
-                        Copy (optional)
-                      </button>
-                    </li>
-                    <li>
-                      <button className="dropdown-item" disabled>
-                        Sort (optional)
-                      </button>
-                    </li>
                   </ul>
                 </div>
               )}

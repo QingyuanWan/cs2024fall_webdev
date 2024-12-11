@@ -11,7 +11,7 @@ interface AttemptAnswer {
 export default function QuizTake() {
   const { quizId, cid } = useParams();
   const { currentUser } = useSelector((state: any) => state.accountReducer);
-  console.log(`for netify: ${cid}`);//for netify
+  //console.log(`for netify: ${cid}`);//for netify
   const [quiz, setQuiz] = useState<any>(null);
   const [attempt, setAttempt] = useState<any>(null);
   const [attemptsRemaining, setAttemptsRemaining] = useState<number>(0);
@@ -64,6 +64,9 @@ export default function QuizTake() {
     setAnswers(updated);
   };
 
+
+
+
   const handleSubmit = async () => {
     if (!quizId) return;
     const result = await client.submitQuizAttempt(quizId, answers);
@@ -75,10 +78,25 @@ export default function QuizTake() {
     };
     setAttempt(newAttempt);
     setSubmitted(true);
+  
+    // after submt, re fetch attempt again
+    const attemptData = await client.fetchQuizAttempt(quizId);
+    if (attemptData) {
+      setQuiz(attemptData.quiz);
+      setAttempt(attemptData.attempt);
+      setAttemptsRemaining(attemptData.attemptsRemaining);
+    }
   };
-
-  const handleRetake = () => {
-    // Check attemptsRemaining again before retaking
+  
+  const handleRetake = async () => {
+    // re fetch attp again
+    const attemptData = await client.fetchQuizAttempt(quizId!);
+    if (attemptData) {
+      setQuiz(attemptData.quiz);
+      setAttempt(attemptData.attempt);
+      setAttemptsRemaining(attemptData.attemptsRemaining);
+    }
+  
     if (attemptsRemaining > 0 && quiz && quiz.questions && quiz.questions.length > 0) {
       const blankAnswers = quiz.questions.map((q: any) => ({
         questionId: q._id, answer: ""
@@ -86,10 +104,10 @@ export default function QuizTake() {
       setAnswers(blankAnswers);
       setSubmitted(false);
     } else {
-      // No attempts left
       alert("No attempts left");
     }
   };
+
 
   const isCorrect = (q: any, ans: string) => q.correctAnswers.includes(ans);
 
@@ -194,6 +212,8 @@ export default function QuizTake() {
           )}
         </div>
       )}
+
+      
     </div>
   );
 }

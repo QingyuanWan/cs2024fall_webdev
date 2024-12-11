@@ -34,8 +34,43 @@ export default function QuizDetails() {
     lastAttempt = attemptInfo.attempt;
   }
 
-  // dteremin attemp time
   const attemptsAllowed = quiz.multipleAttemptsAllowed ? (quiz.maxAttemptsAllowed ?? 1) : 1;
+
+  const handleStartQuiz = () => {
+    if (!isStudent) return;
+
+    if (!quiz.published) {
+      alert("Quiz published yet");
+      return;
+    }
+
+    const now = new Date();
+    const from = quiz.availableFrom ? new Date(quiz.availableFrom) : null;
+    const until = quiz.availableUntil ? new Date(quiz.availableUntil) : null;
+
+    if (from && now < from) {
+      alert("Quiz not yet open to be available");
+      return;
+    }
+    if (until && now > until) {
+      alert("Quiz passed available subbmit time");
+      return;
+    }
+
+    if (quiz.accessCode && quiz.accessCode.trim() !== "") {
+      const code = prompt("Enter Access Code:");
+      if (code === null || code.trim() === "") {
+        alert("No access code entered, cannot start quiz.");
+        return;
+      }
+      if (code.trim() !== quiz.accessCode.trim()) {
+        alert("Incorrect access code");
+        return;
+      }
+    }
+
+    navigate(`/Kanbas/Courses/${cid}/Quizzes/${quiz._id}/take`);
+  };
 
   return (
     <div>
@@ -89,7 +124,7 @@ export default function QuizDetails() {
             {attemptsRemaining > 0 && (
               <button
                 className="btn btn-success"
-                onClick={() => navigate(`/Kanbas/Courses/${cid}/Quizzes/${quiz._id}/take`)}
+                onClick={handleStartQuiz}
               >
                 Start Quiz
               </button>

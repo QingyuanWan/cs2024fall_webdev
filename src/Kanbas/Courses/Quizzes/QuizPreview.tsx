@@ -9,7 +9,7 @@ export default function QuizPreview() {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
 
   const [quiz, setQuiz] = useState<any>(null);
-  console.log(`for netify: ${currentUser}`);//for netify
+  //console.log(`for netify: ${currentUser}`);//for netify
 
   useEffect(() => {
     if (!quizId) return;

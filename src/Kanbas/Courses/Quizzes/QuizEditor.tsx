@@ -72,7 +72,6 @@ export default function QuizEditor() {
       toSave.maxAttemptsAllowed = 1;
     }
   
-    // total point update quiz.points
     const totalPoints = (toSave.questions || []).reduce((acc: number, q: any) => acc + (q.points || 0), 0);
     toSave.points = totalPoints;
   
@@ -138,7 +137,7 @@ export default function QuizEditor() {
             placeholder="Enter quiz title"
           />
 
-          <label className="fw-bold">Description (WYSIWYG)</label>
+          <label className="fw-bold">Description</label>
           <textarea
             className="form-control mb-3"
             rows={4}
