@@ -11,7 +11,7 @@ interface AttemptAnswer {
 export default function QuizTake() {
   const { quizId, cid } = useParams();
   const { currentUser } = useSelector((state: any) => state.accountReducer);
-  //console.log(`for netify: ${cid}`);//for netify
+  console.log(`for netify: ${cid}`);//for netify
   const [quiz, setQuiz] = useState<any>(null);
   const [attempt, setAttempt] = useState<any>(null);
   const [attemptsRemaining, setAttemptsRemaining] = useState<number>(0);
